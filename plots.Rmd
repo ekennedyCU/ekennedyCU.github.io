@@ -1,0 +1,24 @@
+---
+title: "plots"
+author: "Evan Kennedy"
+date: "2025-10-25"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+data("instacart")
+instacart |> 
+  janitor::clean_names()
+```
+
+```{r}
+instacart |>
+  mutate() |> 
+  plot_ly(
+    x = ~aisle, y = ~order_hour_of_day, type = "scatter", mode = "markers", alpha = 0.5)
+
+```
+
+Return to home [here](index.html).

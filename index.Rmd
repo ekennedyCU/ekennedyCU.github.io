@@ -1,0 +1,13 @@
+---
+title: "Evan Kennedy, MScA, CCC-SLP"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+![](https://a.mktgcdn.com/p/LK3QDV4k1kIf6mG1mJc6doW1jKGluSZ-Q1-VhN7fMFY/750x750.jpg)
+
+Learn more about Evan [here](about.html).
+
+Go to [plots](plots.html)
