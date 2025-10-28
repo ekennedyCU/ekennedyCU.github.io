@@ -1,10 +1,13 @@
 ---
-title: "plots"
-author: "Evan Kennedy"
-date: "2025-10-25"
-output: html_document
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
 ---
-```{r}
+
+```{r setup, include=FALSE}
+library(flexdashboard)
 library(tidyverse)
 library(p8105.datasets)
 library(plotly)
@@ -12,9 +15,7 @@ library(dplyr)
 data("instacart")
 instacart |> 
   janitor::clean_names()
-```
 
-```{r}
 # I'm interested in only the top 8 items. 
 top8 = instacart |> 
   count(product_name, sort = TRUE) |> 
@@ -24,6 +25,27 @@ hourly_counts = instacart |>
   filter(product_name %in% top8$product_name) |> 
   group_by(product_name, order_hour_of_day) |> 
   summarise(n = n(), .groups = "drop")
+
+#now I want to see how long the average person goes before reordering each of these top products.
+topbox = instacart |> 
+  filter(product_name %in% top8$product_name)
+
+# now lets see which on average is added first to cart
+
+avg_add_order <- instacart |>
+  filter(product_name %in% top8$product_name) |>
+  group_by(product_name) |>
+  summarise(mean_add_order = mean(add_to_cart_order, na.rm = TRUE)) |>
+  arrange(mean_add_order)
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
 
 plot_ly(
   data = hourly_counts,
@@ -42,12 +64,12 @@ plot_ly(
 
 ```
 
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
 ```{r}
-
-#now I want to see how long the average person goes before reordering each of these top products.
-topbox = instacart |> 
-  filter(product_name %in% top8$product_name)
-
 
 plot_ly(
   data = topbox,
@@ -62,16 +84,12 @@ plot_ly(
     yaxis = list(title = "Days Since Prior Order"),
     showlegend = FALSE
   )
+
 ```
 
-```{r}
-# now lets see which on average is added first to cart
+### Chart C
 
-avg_add_order <- instacart |>
-  filter(product_name %in% top8$product_name) |>
-  group_by(product_name) |>
-  summarise(mean_add_order = mean(add_to_cart_order, na.rm = TRUE)) |>
-  arrange(mean_add_order)
+```{r}
 
 plot_ly(
   data = avg_add_order,
@@ -84,7 +102,6 @@ plot_ly(
     xaxis = list(title = ""),
     yaxis = list(title = "Average Add-to-Cart Position")
   )
+
 ```
 
-
-Return to home [here](index.html).

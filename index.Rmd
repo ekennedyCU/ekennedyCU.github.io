@@ -11,3 +11,5 @@ output:
 Learn more about Evan [here](about.html).
 
 Go to [plots](plots.html)
+
+Go to [Dashboard](Dashboard.html) 
